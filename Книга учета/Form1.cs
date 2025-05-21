@@ -29,6 +29,15 @@ namespace Книга_учета
             categoriesBindingSource.DataSource = accountingData.Categories;
             dgvCategories.DataSource = categoriesBindingSource;
             dgvCategories.AutoGenerateColumns = false;
+            // *** ИЗМЕНЕНИЯ ДЛЯ КАТЕГОРИЙ ***
+            // Запрещаем редактирование ячеек напрямую
+            foreach (DataGridViewColumn column in dgvCategories.Columns)
+            {
+                column.ReadOnly = true;
+            }
+            dgvCategories.AllowUserToAddRows = false; //Отключаем добавление строк
+            dgvCategories.AllowUserToDeleteRows = false; //Отключаем удаление строк
+            // *** КОНЕЦ ИЗМЕНЕНИЙ ДЛЯ КАТЕГОРИЙ ***
 
             transactionsBindingSource.DataSource = accountingData.Transactions;
             dgvTransactions.DataSource = transactionsBindingSource;
