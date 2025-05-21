@@ -2,7 +2,7 @@
 
 namespace Книга_учета
 {
-    // Класс для финансовой операции
+    // Класс для финансовой операции.
     public class Transaction
     {
         public DateTime Date { get; set; }
