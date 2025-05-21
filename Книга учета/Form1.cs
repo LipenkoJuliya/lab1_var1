@@ -38,39 +38,48 @@ namespace Книга_учета
 
             // Настройка колонок для DataGridView (транзакции)
             dgvTransactions.Columns.Clear();
-            DataGridViewTextBoxColumn dateColumn = new DataGridViewTextBoxColumn { DataPropertyName = "Date", HeaderText = "Дата", Name = "Date" }; // Явно задаем имя "Date"
+            DataGridViewTextBoxColumn dateColumn = new DataGridViewTextBoxColumn { DataPropertyName = "Date", HeaderText = "Дата", Name = "Date" };
             dgvTransactions.Columns.Add(dateColumn);
             if (dgvTransactions.Columns.Contains("Date"))
             {
                 dgvTransactions.Columns["Date"].DefaultCellStyle.Format = "yyyy-MM-dd";
             }
 
-            DataGridViewTextBoxColumn descriptionColumn = new DataGridViewTextBoxColumn { DataPropertyName = "Description", HeaderText = "Описание", Name = "Description" }; // Явно задаем имя "Description"
+            DataGridViewTextBoxColumn descriptionColumn = new DataGridViewTextBoxColumn { DataPropertyName = "Description", HeaderText = "Описание", Name = "Description" };
             dgvTransactions.Columns.Add(descriptionColumn);
 
-            DataGridViewTextBoxColumn amountColumn = new DataGridViewTextBoxColumn { DataPropertyName = "Amount", HeaderText = "Сумма", Name = "Amount" }; // Явно задаем имя "Amount"
+            DataGridViewTextBoxColumn amountColumn = new DataGridViewTextBoxColumn { DataPropertyName = "Amount", HeaderText = "Сумма", Name = "Amount" };
             dgvTransactions.Columns.Add(amountColumn);
 
-            DataGridViewTextBoxColumn categoryColumn = new DataGridViewTextBoxColumn 
+            DataGridViewTextBoxColumn categoryColumn = new DataGridViewTextBoxColumn
             {
                 DataPropertyName = "Category",
-                HeaderText = "Категория",
-                Name = "Category" 
+                HeaderText = "Категория",  // Заголовок на русском
+                Name = "Category"
             };
             dgvTransactions.Columns.Add(categoryColumn);
 
-            DataGridViewTextBoxColumn typeColumn = new DataGridViewTextBoxColumn 
+            DataGridViewTextBoxColumn typeColumn = new DataGridViewTextBoxColumn
             {
                 DataPropertyName = "Type",
-                HeaderText = "Тип",
-                Name = "Type" // Явно задаем имя "Type"
+                HeaderText = "Тип",  // Заголовок на русском
+                Name = "Type"
             };
             dgvTransactions.Columns.Add(typeColumn);
 
+            // Запрещаем редактирование ячеек напрямую
+            foreach (DataGridViewColumn column in dgvTransactions.Columns)
+            {
+                column.ReadOnly = true;
+            }
+
+            dgvTransactions.AllowUserToAddRows = false; //Отключаем добавление строк
+            dgvTransactions.AllowUserToDeleteRows = false; //Отключаем удаление строк
 
             openFileDialog1.Filter = "JSON files (*.json)|*.json|All files (*.*)|*.*";
             saveFileDialog1.Filter = "JSON files (*.json)|*.json|All files (*.*)|*.*";
 
+            // LoadDataFromFile();  // Используем LoadDataFromFile при загрузке формы - УДАЛЕНО!!!
             UpdateBalance();
             UpdateCategoryTotals();
             UpdateChart();
@@ -119,7 +128,8 @@ namespace Книга_учета
                         {
                             // Категория не найдена
                             MessageBox.Show($"Категория '{transaction.Category.Name}' не найдена. Транзакция будет удалена.", "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            accountingData.Transactions.Remove(transaction); // Удаляем транзакци
+                            accountingData.Transactions.Remove(transaction); // Удаляем транзакцию
+                            //transaction.Category = accountingData.Categories.FirstOrDefault(); // Или заменяем на категорию по умолчанию
                         }
                     }
 
@@ -299,25 +309,21 @@ namespace Книга_учета
                 {
                     DateTime newDate = dtpTransactionDate.Value.Date; // Сохраняем только дату
                     string newDescription = txtTransactionDescription.Text.Trim();
-                    decimal newAmount = nudTransactionAmount.Value;
+                    decimal amount = nudTransactionAmount.Value;
 
-                    TransactionType newType = rdbTransactionExpense.Checked ? TransactionType.Expense : TransactionType.Income; // Получаем тип из RadioButton
+                    TransactionType type = rdbTransactionExpense.Checked ? TransactionType.Expense : TransactionType.Income; // Получаем тип из RadioButton
 
                     Category selectedCategory = (Category)cmbTransactionCategory.SelectedItem;
 
                     if (selectedCategory != null && !string.IsNullOrEmpty(newDescription))
                     {
-                        Transaction newTransaction = new Transaction(newDate, newDescription, newAmount, selectedCategory, newType);
-
-                        // Обновляем значения в DataGridView
                         selectedTransaction.Date = newDate;
                         selectedTransaction.Description = newDescription;
-                        selectedTransaction.Amount = newAmount;
+                        selectedTransaction.Amount = amount;
                         selectedTransaction.Category = selectedCategory;
-                        selectedTransaction.Type = newType;
+                        selectedTransaction.Type = type;
 
-
-                        dgvTransactions.Refresh(); // Обновляем DataGridView, чтобы изменения отобразились
+                        dgvTransactions.Refresh();
                         transactionsBindingSource.ResetBindings(false);
 
                         UpdateBalance();
@@ -414,7 +420,7 @@ namespace Книга_учета
             LoadDataFromFile();
         }
 
-        // Обработчики событий для текстовых полей
+        // Обработчики событий для текстовых полей (можно добавлять валидацию)
         private void txtNameCategory_TextChanged(object sender, EventArgs e) { }
         private void txtDescriptionCategory_TextChanged(object sender, EventArgs e) { }
         private void dtpTransactionDate_ValueChanged(object sender, EventArgs e) { }

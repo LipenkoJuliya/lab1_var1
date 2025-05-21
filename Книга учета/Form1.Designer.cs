@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageCategories = new System.Windows.Forms.TabPage();
             this.btnDeleteCategory = new System.Windows.Forms.Button();
@@ -54,12 +54,11 @@
             this.dtpTransactionDate = new System.Windows.Forms.DateTimePicker();
             this.dgvTransactions = new System.Windows.Forms.DataGridView();
             this.tabPageReports = new System.Windows.Forms.TabPage();
+            this.chtCategoryTotals = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.lstCategoryTotals = new System.Windows.Forms.ListBox();
             this.lblBalance = new System.Windows.Forms.Label();
-            this.btnCalculateBalance = new System.Windows.Forms.Button();
             this.btnSaveTransactions = new System.Windows.Forms.Button();
             this.btnLoadTransactions = new System.Windows.Forms.Button();
-            this.chtCategoryTotals = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.tabControl1.SuspendLayout();
@@ -308,6 +307,22 @@
             this.tabPageReports.Text = "Отчеты";
             this.tabPageReports.UseVisualStyleBackColor = true;
             // 
+            // chtCategoryTotals
+            // 
+            chartArea1.Name = "ChartArea1";
+            this.chtCategoryTotals.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.chtCategoryTotals.Legends.Add(legend1);
+            this.chtCategoryTotals.Location = new System.Drawing.Point(371, 22);
+            this.chtCategoryTotals.Name = "chtCategoryTotals";
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.chtCategoryTotals.Series.Add(series1);
+            this.chtCategoryTotals.Size = new System.Drawing.Size(437, 300);
+            this.chtCategoryTotals.TabIndex = 1;
+            this.chtCategoryTotals.Text = "chart1";
+            // 
             // lstCategoryTotals
             // 
             this.lstCategoryTotals.FormattingEnabled = true;
@@ -325,16 +340,6 @@
             this.lblBalance.Size = new System.Drawing.Size(104, 20);
             this.lblBalance.TabIndex = 27;
             this.lblBalance.Text = "Баланс: 0.00";
-            // 
-            // btnCalculateBalance
-            // 
-            this.btnCalculateBalance.Location = new System.Drawing.Point(369, 31);
-            this.btnCalculateBalance.Name = "btnCalculateBalance";
-            this.btnCalculateBalance.Size = new System.Drawing.Size(150, 23);
-            this.btnCalculateBalance.TabIndex = 28;
-            this.btnCalculateBalance.Text = "Рассчитать баланс";
-            this.btnCalculateBalance.UseVisualStyleBackColor = true;
-            this.btnCalculateBalance.Click += new System.EventHandler(this.btnCalculateBalance_Click);
             // 
             // btnSaveTransactions
             // 
@@ -356,22 +361,6 @@
             this.btnLoadTransactions.UseVisualStyleBackColor = true;
             this.btnLoadTransactions.Click += new System.EventHandler(this.btnLoadTransactions_Click);
             // 
-            // chtCategoryTotals
-            // 
-            chartArea2.Name = "ChartArea1";
-            this.chtCategoryTotals.ChartAreas.Add(chartArea2);
-            legend2.Name = "Legend1";
-            this.chtCategoryTotals.Legends.Add(legend2);
-            this.chtCategoryTotals.Location = new System.Drawing.Point(371, 22);
-            this.chtCategoryTotals.Name = "chtCategoryTotals";
-            series2.ChartArea = "ChartArea1";
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            this.chtCategoryTotals.Series.Add(series2);
-            this.chtCategoryTotals.Size = new System.Drawing.Size(437, 300);
-            this.chtCategoryTotals.TabIndex = 1;
-            this.chtCategoryTotals.Text = "chart1";
-            // 
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
@@ -383,7 +372,6 @@
             this.ClientSize = new System.Drawing.Size(879, 745);
             this.Controls.Add(this.btnLoadTransactions);
             this.Controls.Add(this.btnSaveTransactions);
-            this.Controls.Add(this.btnCalculateBalance);
             this.Controls.Add(this.lblBalance);
             this.Controls.Add(this.tabControl1);
             this.Name = "Form1";
@@ -431,7 +419,6 @@
         private System.Windows.Forms.TabPage tabPageReports;
         private System.Windows.Forms.ListBox lstCategoryTotals;
         private System.Windows.Forms.Label lblBalance;
-        private System.Windows.Forms.Button btnCalculateBalance;
         private System.Windows.Forms.Button btnSaveTransactions;
         private System.Windows.Forms.Button btnLoadTransactions;
         private System.Windows.Forms.DataVisualization.Charting.Chart chtCategoryTotals;
